@@ -1,0 +1,40 @@
+extends ../layout.jade
+
+block content
+    div(class='page-header')
+        h1 Create meeting
+    form(method='post', action='/meetings/create', class='form-horizontal')
+        div(class='row')
+            div(class='col-md-6 col-md-offset-2')
+                div(class='form-group')
+                    label(for='name', class='control-label col-md-4') Title
+                    div(class='col-md-8')
+                        input(type='text', id='name', name='name', required, class='form-control', placeholder='Title of the meeting')
+        div(class='row')
+            div(class='col-md-6 col-md-offset-2')
+                div(class='form-group')
+                    label(for='startDate', class='control-label col-md-4') Start date
+                    div(class='col-md-8')
+                        input(type='datetime-local', id='startDate', name='startDate', required, class='form-control', placeholder='Start date of the meeting')
+        div(class='row')
+            div(class='col-md-6 col-md-offset-2')
+                div(class='form-group')
+                    label(for='plannedEndDate', class='control-label col-md-4') End date
+                    div(class='col-md-8')
+                        input(type='datetime-local', id='plannedEndDate', name='plannedEndDate', required, class='form-control', placeholder='End date of the meeting')
+        div(class='row')
+            div(class='col-md-6 col-md-offset-2')
+                div(class='form-group')
+                    label(for='participants', class='control-label col-md-4') Participants
+                    div(class='col-md-8')
+                        select(multiple, id='participants', name='participants', required, class='form-control')
+                            option(value='1') Test
+                            option(value='2') Test 2
+        div(class='row')
+            div(class='col-md-6 col-md-offset-3')
+                div(class='form-group')
+                    button(type='submit', class='btn btn-default') Plan
+        div(class='row')
+            div(class='col-md-6 col-md-offset-3')
+                div(class='form-group')
+                    a(class='btn btn-default', href='/') Back to list

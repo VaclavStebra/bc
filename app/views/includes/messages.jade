@@ -1,0 +1,31 @@
+if (info && info.length)
+    div(class='alert alert-info alert-dismissable', role='alert')
+        button(class='close', type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') &times;
+        ul
+            each item in info
+                li= item
+
+if (errors && errors.length)
+    div(class='alert alert-danger alert-dismissable', role='alert')
+        button(class='close', type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') &times;
+        ul
+            each item in errors
+                li= item
+
+if (success && success.length)
+    div(class='alert alert-success alert-dismissable', role='alert')
+        button(class='close', type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') &times;
+        ul
+            each item in success
+                li= item
+
+if (warning && warning.length)
+    div(class='fade in alert alert-warning alert-dismissable', role='alert')
+        button(class='close', type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') &times;
+        ul
+            each item in warning
+                li= item
