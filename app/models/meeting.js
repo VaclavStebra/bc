@@ -8,10 +8,8 @@ const MeetingSchema = new Schema({
     name: String,
     organizer: { type: Schema.Types.ObjectId, ref: 'User'},
     startDate: Date,
-    plannedEndDate: Date,
     endDate: Date,
-    participants: [],
-    transcript: []
+    participants: []
 });
 
 mongoose.model('Meeting', MeetingSchema);

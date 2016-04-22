@@ -11,9 +11,8 @@ module.exports = function (app, passport) {
         next();
     });
 
-    app.get('/', auth.requiresAuth, meetings.index);
-    app.get('/meetings/create', auth.requiresAuth, meetings.plan);
-    app.post('/meetings/create', auth.requiresAuth, meetings.create);
+    app.get('/', auth.requiresAuth, meetings.plan);
+    app.post('/', auth.requiresAuth, meetings.create);
 
     app.get('/register', users.registerForm);
     app.post('/register', users.register);
@@ -25,6 +24,10 @@ module.exports = function (app, passport) {
     }), users.login);
 
     app.get('/logout', users.logout);
+
+    app.param('meetingId', meetings.loadMeeting);
+    app.get('/meetings/summary/:meetingId', auth.requiresAuth, meetings.summary);
+    app.get('/meetings/:meetingId', auth.requiresAuth, meetings.meeting);
 
     app.use(function (err, req, res, next) {
         // treat as 404

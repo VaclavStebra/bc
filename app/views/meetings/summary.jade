@@ -1,0 +1,24 @@
+extends ../layout.jade
+
+block content
+    div(class='page-header')
+        h1 Meeting summary
+    p.
+        You just created new meeting. An email with it's link has been sent to every participant including yourself.
+        If you want other people to join, provide them with this link: #[a(href="/meetings/" + meeting.id)= "https://mtg.sde.cz/meetings/" + meeting.id]
+    h2 Meeting details
+    p.
+        #[strong Meeting name: ]
+        #{meeting.name}
+    p.
+        #[strong Organizer: ]
+        #{meeting.organizer.email}
+    p.
+        #[strong Start date: ]
+        #{meeting.startDate}
+    p.
+        #[strong End date: ]
+        #{meeting.endDate}
+
+    a(href='/meetings/' + meeting.id, class='btn btn-default') Go to meeting
+
