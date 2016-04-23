@@ -17,7 +17,9 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "bootstrap-tokenfield": "^0.12.1"
+    "bootstrap-tokenfield": "^0.12.1",
+    "socket.io-client": "^1.4.5",
+    "datetimepicker": "^2.5.3"
   },
   "resolutions": {
     "bootstrap": "^3.3.6"

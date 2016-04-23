@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 const privateKey = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.key');
 const certificate = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.crt');
 const credentials = {key: privateKey, cert: certificate};
@@ -25,6 +26,7 @@ require('./config/express')(app, passport);
 require('./config/router')(app, passport);
 
 const httpsServer = https.createServer(credentials, app);
+const io = require('./socketServer')(httpsServer);
 
 connectToDb()
     .on('error', console.log)

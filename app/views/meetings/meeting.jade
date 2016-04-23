@@ -3,6 +3,7 @@ extends ../layout.jade
 block content
     h2= meeting.name
     div
+        input(type='hidden', value=meeting.id, id='meeting-id')
         ul(class='nav nav-tabs', role='tablist')
             li(role='presentation', class='active')
                 a(href='#chat', aria-controls='chat', role='tab', data-toggle='tab') Chat
@@ -15,10 +16,17 @@ block content
                     div(class='row')
                         div(class='col-md-12')
                             div(class='input-group')
-                                input(type='text', class='form-control', placeholder='Message')
+                                input(type='text', class='form-control', placeholder='Message', id='chat-message')
                                 span(class='input-group-btn')
-                                    button(class='btn btn-default', type='button') Send
+                                    button(class='btn btn-default', type='button', id='send-message') Send
+                    div(id='chat-messages', class='padding-top-10')
+
             div(role='tabpanel', class='tab-pane', id='video')
-                p Video
+                div(class='tab-content')
+                    video(id='local-video', autoplay)
+                    video(id='remote-video' autoplay)
+
+    script(src='/socket.io-client/socket.io.js')
+    script(src='/js/meeting.js')
 
 
