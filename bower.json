@@ -1,0 +1,25 @@
+{
+  "name": "meeting-portal",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Vaclav Stebra"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/VaclavStebra/bc",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "bootstrap-tokenfield": "^0.12.1"
+  },
+  "resolutions": {
+    "bootstrap": "^3.3.6"
+  }
+}

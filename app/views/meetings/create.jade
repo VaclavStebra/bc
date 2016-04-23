@@ -15,22 +15,44 @@ block content
                 div(class='form-group')
                     label(for='startDate', class='control-label col-md-4') Start date
                     div(class='col-md-8')
-                        input(type='datetime-local', id='startDate', name='startDate', required, class='form-control', placeholder='Start date of the meeting')
+                        input(type='datetime', id='startDate', name='startDate', required, class='form-control', placeholder='Start date of the meeting')
         div(class='row')
             div(class='col-md-6 col-md-offset-2')
                 div(class='form-group')
                     label(for='endDate', class='control-label col-md-4') End date
                     div(class='col-md-8')
-                        input(type='datetime-local', id='endDate', name='endDate', required, class='form-control', placeholder='End date of the meeting')
+                        input(type='datetime', id='endDate', name='endDate', required, class='form-control', placeholder='End date of the meeting')
         div(class='row')
             div(class='col-md-6 col-md-offset-2')
                 div(class='form-group')
                     label(for='participants', class='control-label col-md-4') Participants
                     div(class='col-md-8')
-                        select(multiple, id='participants', name='participants', required, class='form-control')
-                            option(value='1') Test
-                            option(value='2') Test 2
+                        input(type='text', id='participants', name='participants', required, class='form-control')
         div(class='row')
             div(class='col-md-6 col-md-offset-3')
                 div(class='form-group')
                     button(type='submit', class='btn btn-default') Plan new meeting
+
+    script.
+        $(document).ready(function() {
+            // datetime picker and validation that startDate < endDate
+            $('#startDate').datetimepicker({
+                onShow: function (ct) {
+                    this.setOptions({
+                        maxDate: $('#endDate').val() ? $('#endDate').val() : false,
+                        maxTime: $('#endDate').val() ? $('#endDate').val() : false
+                    })
+                }
+            });
+            $('#endDate').datetimepicker({
+                onShow: function (ct) {
+                    this.setOptions({
+                        minDate: $('#startDate').val() ? $('#startDate').val() : false,
+                        minTime: $('#startDate').val() ? $('#startDate').val() : false
+                    })
+                }
+            });
+
+            // initialize tokenfield for participant's emails
+            $('#participants').tokenfield();
+        });

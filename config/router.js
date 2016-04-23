@@ -26,7 +26,6 @@ module.exports = function (app, passport) {
     app.get('/logout', users.logout);
 
     app.param('meetingId', meetings.loadMeeting);
-    app.get('/meetings/summary/:meetingId', auth.requiresAuth, meetings.summary);
     app.get('/meetings/:meetingId', auth.requiresAuth, meetings.meeting);
 
     app.use(function (err, req, res, next) {

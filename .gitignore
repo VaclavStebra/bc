@@ -2,3 +2,4 @@
 bower_components
 node_modules
 meeting-portal.iml
+public/js/libs

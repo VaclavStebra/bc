@@ -1,3 +1,7 @@
 .navbar .container-fluid {
     padding-right: 40px;
 }
+
+.tab-content {
+    padding-top: 10px;
+}

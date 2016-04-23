@@ -1,7 +1,7 @@
 nav(class='navbar navbar-inverse')
     div(class='container-fluid')
         div(class='navbar-header')
-            a(class='navbar-brand', href='#') SDE Meeting Portal
+            a(class='navbar-brand', href='/') SDE Meeting Portal
         div(class='navbar-right')
             if req.isAuthenticated()
                 p(class='navbar-text')= 'Signed as ' + req.user.email
