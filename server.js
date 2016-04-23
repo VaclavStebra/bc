@@ -1,10 +1,11 @@
 'use strict';
 
-const fs = require('fs');
-const https = require('https');
-const privateKey = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.key');
-const certificate = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.crt');
-const credentials = {key: privateKey, cert: certificate};
+//const fs = require('fs');
+//const https = require('https');
+const http = require('http');
+//const privateKey = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.key');
+//const certificate = fs.readFileSync('/etc/ssl/mtg/mtg.sde.cz.crt');
+//const credentials = {key: privateKey, cert: certificate};
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -24,9 +25,9 @@ require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/router')(app, passport);
 
-const httpsServer = https.createServer(credentials, app);
-const socketServer = require('./socketServer')(httpsServer);
-
+//const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
+const io = require('./socketServer')(httpServer);
 
 connectToDb()
     .on('error', console.log)
@@ -34,7 +35,9 @@ connectToDb()
     .once('open', startServer);
 
 function startServer() {
-    httpsServer.listen(port);
+    //httpsServer.listen(port);
+    //app.listen(port);
+    httpServer.listen(port);
     console.log('App started on port ' + port);
 }
 

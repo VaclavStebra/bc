@@ -15,6 +15,7 @@ $(document).ready(function() {
     });
 
     self.socket = io.connect('http://localhost:3000');
+    self.socket.emit('join room', $('#meeting-id').val());
 
     self.socket.on('chat message', function(msg) {
         var message = $('<p class="bg-primary message"></p>');

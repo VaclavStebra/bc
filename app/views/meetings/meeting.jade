@@ -3,6 +3,7 @@ extends ../layout.jade
 block content
     h2= meeting.name
     div
+        input(type='hidden', value=meeting.id, id='meeting-id')
         ul(class='nav nav-tabs', role='tablist')
             li(role='presentation', class='active')
                 a(href='#chat', aria-controls='chat', role='tab', data-toggle='tab') Chat
