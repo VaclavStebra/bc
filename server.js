@@ -25,6 +25,8 @@ require('./config/express')(app, passport);
 require('./config/router')(app, passport);
 
 const httpsServer = https.createServer(credentials, app);
+const socketServer = require('./socketServer')(httpsServer);
+
 
 connectToDb()
     .on('error', console.log)
