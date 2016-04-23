@@ -17,3 +17,16 @@
 .message-right {
     text-align: right;
 }
+
+#local-video {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    width: 300px;
+    height: 300px;
+}
+
+#remote-video {
+    width: 90%;
+    height: 100%;
+}

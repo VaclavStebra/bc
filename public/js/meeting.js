@@ -35,4 +35,6 @@ $(document).ready(function() {
         $('#chat-message').val('').focus();
     };
 
+
+
 });

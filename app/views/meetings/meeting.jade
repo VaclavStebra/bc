@@ -22,7 +22,9 @@ block content
                     div(id='chat-messages', class='padding-top-10')
 
             div(role='tabpanel', class='tab-pane', id='video')
-                p Video
+                div(class='tab-content')
+                    video(id='local-video', autoplay)
+                    video(id='remote-video' autoplay)
 
     script(src='/socket.io-client/socket.io.js')
     script(src='/js/meeting.js')
