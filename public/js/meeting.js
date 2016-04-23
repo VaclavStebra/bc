@@ -14,7 +14,7 @@ $(document).ready(function() {
         self.sendMessage();
     });
 
-    self.socket = io.connect('http://localhost:3000');
+    self.socket = io.connect('https://mtg.sde.cz');
     self.socket.emit('join room', $('#meeting-id').val());
 
     self.socket.on('chat message', function(msg) {
