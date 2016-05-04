@@ -42,11 +42,11 @@ $(document).ready(function() {
 
     self.socket.on('peer.connected', function(user) {
         toastr.info(user.email + ' has joined the conference');
-	if (stream) {
+        if (stream) {
             self.makeOffer(user.id);
-	} else {
-	    waitingPeers.push({id: user.id, handled: false});
-	}
+        } else {
+            waitingPeers.push({id: user.id, handled: false});
+        }
     });
 
     self.socket.on('peer.disconnected', function (user) {
@@ -54,6 +54,8 @@ $(document).ready(function() {
         peers = peers.filter(function (peer) {
             return peer.id !== user.id;
         });
+        self.endPeerConnection(user.id);
+        $("#" + user.id).remove();
     });
 
     self.socket.on('webrtc.message', function(message) {
@@ -73,14 +75,29 @@ $(document).ready(function() {
         peerConnection.onaddstream = function(stream) {
             var s = URL.createObjectURL(stream.stream);
             peers.push({id: id, stream: s});
+
+            var container = $('<div></div>');
+            container.addClass('col-sm-4');
+            container.attr('id', id);
+            var videoContainer = $('<div></div>');
+            videoContainer.addClass('remote-video-container');
+            container.append(videoContainer);
+
             var video = $('<video></video>');
-            video.attr('id', id);
             video.attr('autoplay', 'autoplay');
             video.addClass('remote-video');
             video.attr('src', s);
-            $('#remote').append(video);
+            videoContainer.append(video);
+
+            $('#remote-videos').append(container);
         };
         return peerConnection;
+    };
+
+    self.endPeerConnection = function (id) {
+        var pc = self.createPeerConnection(id);
+        pc.close();
+        delete peerConnections[id];
     };
 
     self.makeOffer = function(id) {
