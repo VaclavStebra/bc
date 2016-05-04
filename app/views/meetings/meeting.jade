@@ -22,7 +22,7 @@ block content
 
             div(role='tabpanel', class='tab-pane', id='video')
                 div(class='tab-content', id='remote')
-                    video(id='local-video', autoplay)
+                    video(id='local-video', autoplay, muted)
 
     script(src='/socket.io-client/socket.io.js')
     script(src='/webrtc-adapter/adapter-1.1.0.js')

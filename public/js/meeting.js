@@ -7,6 +7,7 @@ $(document).ready(function() {
     var peers = [];
     var rtcPeerConnectionConfig = {'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
     var peerConnections = {};
+    var waitingPeers = [];
 
     $('#chat-message').on('keypress', function(e) {
         if (e.which === 13) {
@@ -41,7 +42,11 @@ $(document).ready(function() {
 
     self.socket.on('peer.connected', function(user) {
         toastr.info(user.email + ' has joined the conference');
-        self.makeOffer(user.id);
+	if (stream) {
+            self.makeOffer(user.id);
+	} else {
+	    waitingPeers.push({id: user.id, handled: false});
+	}
     });
 
     self.socket.on('peer.disconnected', function (user) {
@@ -116,6 +121,15 @@ $(document).ready(function() {
     navigator.getUserMedia({video: true, audio: true}, function (s) {
         stream = s;
         $('#local-video').attr('src', URL.createObjectURL(stream));
+	if (waitingPeers.length > 0) {
+	    for (var i in waitingPeers) {
+		if ( ! waitingPeers[i].handled) {
+		    self.makeOffer(waitingPeers[i].id);
+		    waitingPeers[i].handled = true;
+		}
+	    }
+	    waitingPeers = waitingPeers.filter(function (peer) { return ! peer.handled; });
+	}
     }, function (e) {
         console.error(e);
     });
