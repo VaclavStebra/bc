@@ -8,6 +8,7 @@ $(document).ready(function() {
     var rtcPeerConnectionConfig = {'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
     var peerConnections = {};
     var waitingPeers = [];
+    var waitingOffers = [];
 
     $('#chat-message').on('keypress', function(e) {
         if (e.which === 13) {
@@ -59,7 +60,11 @@ $(document).ready(function() {
     });
 
     self.socket.on('webrtc.message', function(message) {
-        self.handleMessage(message);
+        if (stream) {
+            self.handleMessage(message);
+        } else {
+            waitingOffers.push({message: message, handled: false});
+        }
     });
 
     self.createPeerConnection = function (id) {
@@ -138,15 +143,24 @@ $(document).ready(function() {
     navigator.getUserMedia({video: true, audio: true}, function (s) {
         stream = s;
         $('#local-video').attr('src', URL.createObjectURL(stream));
-	if (waitingPeers.length > 0) {
-	    for (var i in waitingPeers) {
-		if ( ! waitingPeers[i].handled) {
-		    self.makeOffer(waitingPeers[i].id);
-		    waitingPeers[i].handled = true;
-		}
+    	if (waitingPeers.length > 0) {
+	        for (var i in waitingPeers) {
+		        if ( ! waitingPeers[i].handled) {
+		            self.makeOffer(waitingPeers[i].id);
+		            waitingPeers[i].handled = true;
+		        }   
+	        }
+	        waitingPeers = waitingPeers.filter(function (peer) { return ! peer.handled; });
+        }
+        if (waitingOffers.length > 0) {
+            for (var i in waitingOffers) {
+                if ( ! waitingOffers[i].handled) {
+                    self.handleMessage(waitingOffers[i].message);
+                    waitingOffers[i].handled = true;
+                }
+            }
+            waitingOffers = waitingOffers.filter(function (offer) { return ! offer.handled; });
 	    }
-	    waitingPeers = waitingPeers.filter(function (peer) { return ! peer.handled; });
-	}
     }, function (e) {
         console.error(e);
     });
