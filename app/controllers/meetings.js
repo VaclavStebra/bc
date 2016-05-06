@@ -10,6 +10,7 @@ exports.plan = function(req, res) {
 
 exports.create = function(req, res) {
     var participants = req.body.participants.split(',');
+    var name = req.body.name.substring(0, 55);
     var meeting = new Meeting({
         name: req.body.name,
         organizer: req.user.id,

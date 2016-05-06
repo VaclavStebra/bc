@@ -25,18 +25,19 @@ $(document).ready(function() {
 
     self.socket.on('chat message', function(msg) {
         var message = $('<p class="bg-primary message"></p>');
-        message.append(msg);
-        $('#chat-messages').append(message);
+        message.append(self.escapeHtml(msg));
+        $('#chat-messages').prepend(message);
     });
 
     self.sendMessage = function() {
         var messageContent = $('#chat-message').val();
+        messageContent = self.escapeHtml(messageContent);
         if ( ! messageContent) {
             return;
         }
         var message = $('<p class="bg-info message-right"></p>');
         message.append(messageContent);
-        $('#chat-messages').append(message);
+        $('#chat-messages').prepend(message);
         self.socket.emit('chat message', messageContent);
         $('#chat-message').val('').focus();
     };
@@ -95,6 +96,11 @@ $(document).ready(function() {
             videoContainer.append(video);
 
             $('#remote-videos').append(container);
+            video.click(function() {
+                if (screenfull.enabled) {
+                    screenfull.toggle(this);
+                }
+            });
         };
         return peerConnection;
     };
@@ -164,6 +170,12 @@ $(document).ready(function() {
     }, function (e) {
         console.error(e);
     });
+
+    self.escapeHtml = function (str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    };
 
     toastr.options = {
         "closeButton": false,
