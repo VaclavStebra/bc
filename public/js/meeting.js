@@ -25,7 +25,12 @@ $(document).ready(function() {
 
     self.socket.on('chat message', function(msg) {
         var message = $('<p class="bg-primary message"></p>');
-        message.append(self.escapeHtml(msg));
+
+        var sender = $('<strong></strong>');
+        sender.append(self.escapeHtml(msg.sender) + ' ' );
+        message.append(sender);
+
+        message.append(self.escapeHtml(msg.text));
         $('#chat-messages').prepend(message);
     });
 
@@ -38,7 +43,7 @@ $(document).ready(function() {
         var message = $('<p class="bg-info message-right"></p>');
         message.append(messageContent);
         $('#chat-messages').prepend(message);
-        self.socket.emit('chat message', messageContent);
+        self.socket.emit('chat message', {sender: USER_EMAIL, text: messageContent});
         $('#chat-message').val('').focus();
     };
 
