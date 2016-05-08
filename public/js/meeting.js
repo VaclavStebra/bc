@@ -4,6 +4,8 @@ $(document).ready(function() {
 
     var self = this;
     var stream;
+    var video = false;
+    var audio = false;
     var peers = [];
     var rtcPeerConnectionConfig = {'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
     var peerConnections = {};
@@ -152,16 +154,31 @@ $(document).ready(function() {
     };
 
     navigator.getUserMedia({video: true, audio: true}, function (s) {
+        self.gotStream(s);
+        video = true;
+        audio = true;
+    }, function (e) {
+        console.error(e);
+        navigator.getUserMedia({video: false, audio: true}, function (s) {
+            self.gotStream(s);
+            video = false;
+            audio = false;
+        }, function(e) {
+            console.error(e);
+        });
+    });
+
+    self.gotStream = function (s) {
         stream = s;
         $('#local-video').attr('src', URL.createObjectURL(stream));
-    	if (waitingPeers.length > 0) {
-	        for (var i in waitingPeers) {
-		        if ( ! waitingPeers[i].handled) {
-		            self.makeOffer(waitingPeers[i].id);
-		            waitingPeers[i].handled = true;
-		        }   
-	        }
-	        waitingPeers = waitingPeers.filter(function (peer) { return ! peer.handled; });
+        if (waitingPeers.length > 0) {
+            for (var i in waitingPeers) {
+                if ( ! waitingPeers[i].handled) {
+                    self.makeOffer(waitingPeers[i].id);
+                    waitingPeers[i].handled = true;
+                }
+            }
+            waitingPeers = waitingPeers.filter(function (peer) { return ! peer.handled; });
         }
         if (waitingOffers.length > 0) {
             for (var i in waitingOffers) {
@@ -171,10 +188,8 @@ $(document).ready(function() {
                 }
             }
             waitingOffers = waitingOffers.filter(function (offer) { return ! offer.handled; });
-	    }
-    }, function (e) {
-        console.error(e);
-    });
+        }
+    };
 
     self.escapeHtml = function (str) {
         var div = document.createElement('div');
