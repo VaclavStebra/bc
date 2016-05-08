@@ -3,7 +3,6 @@ extends ../layout.jade
 block content
     h2= meeting.name
     div
-        input(type='hidden', value=meeting.id, id='meeting-id')
         ul(class='nav nav-tabs', role='tablist')
             li(role='presentation', class='active')
                 a(href='#chat', aria-controls='chat', role='tab', data-toggle='tab') Chat
@@ -23,10 +22,17 @@ block content
 
             div(role='tabpanel', class='tab-pane', id='video')
                 div(class='tab-content')
-                    video(id='local-video', autoplay)
-                    video(id='remote-video' autoplay)
+                    video(id='local-video', autoplay, muted)
+                    div(class='row', id='remote-videos')
+
 
     script(src='/socket.io-client/socket.io.js')
+    script(src='/webrtc-adapter/adapter-1.1.0.js')
+    script.
+        const MEETING_ID = "#{meeting.id}";
+        const USER_EMAIL = "#{req.user.email}";
+        const USER_ID = "#{req.user.id}";
+    script(src='/screenfull/dist/screenfull.js')
     script(src='/js/meeting.js')
 
 

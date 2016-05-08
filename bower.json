@@ -19,7 +19,10 @@
     "bootstrap": "^3.3.6",
     "bootstrap-tokenfield": "^0.12.1",
     "socket.io-client": "^1.4.5",
-    "datetimepicker": "^2.5.3"
+    "datetimepicker": "^2.5.3",
+    "toastr": "^2.1.2",
+    "webrtc-adapter": "gh-pages",
+    "screenfull": "^3.0.0"
   },
   "resolutions": {
     "bootstrap": "^3.3.6"
