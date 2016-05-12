@@ -23,7 +23,7 @@ exports.create = function(req, res) {
     meeting.save(function(err) {
         if (err) throw err;
         console.log('Created meeting ' + meeting.name + ' organized by ' + req.user.email);
-        sendLinkToParticipants(participants, req.user.id);
+        sendLinkToParticipants(meeting.id, participants, req.user.email);
     });
     res.redirect('/meetings/' + meeting.id);
 };
@@ -76,10 +76,11 @@ exports.loadMeeting = function(req, res, next, id) {
 function sendLinkToParticipants(id, participants, organizer) {
     var transporter = nodemailer.createTransport(config.email);
     var mailOptions = {
+        from: 'vstebra@mtg.sde.cz',
         to: participants.join(','),
         subject: 'Meeting invitation',
-        html: '<p>You have been invited to the meeting organized by ' + organizer + '.' +
-        ' You can attend the meeting using following link: <a href="https://mtg.sde.cz/meetings/' + id + '>https://mtg.sde.cz/meetings/' + id + '</a>"</p>'
+        html: 'You have been invited to the meeting organized by ' + organizer + '.' +
+        ' You can attend the meeting using following link: https://mtg.sde.cz/meetings/' + id
     };
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {

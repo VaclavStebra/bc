@@ -7,12 +7,7 @@ module.exports = {
     db: 'mongodb://localhost/meeting_portal',
     email: {
         host: 'localhost',
-        port: 465,
-        secure: true,
-        auth: {
-            user: 'TODO',
-            pass: 'TODO'
-        }
+        secure: false,
     }
 };
 
