@@ -1,6 +1,8 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
+const config = require('../../config/config');
 
 const Meeting = mongoose.model('Meeting');
 
@@ -10,6 +12,7 @@ exports.plan = function(req, res) {
 
 exports.create = function(req, res) {
     var participants = req.body.participants.split(',');
+    var name = req.body.name.substring(0, 55);
     var meeting = new Meeting({
         name: req.body.name,
         organizer: req.user.id,
@@ -20,7 +23,7 @@ exports.create = function(req, res) {
     meeting.save(function(err) {
         if (err) throw err;
         console.log('Created meeting ' + meeting.name + ' organized by ' + req.user.email);
-        // TODO: send email with meeting id to all the participants
+        sendLinkToParticipants(meeting.id, participants, req.user.email);
     });
     res.redirect('/meetings/' + meeting.id);
 };
@@ -69,3 +72,20 @@ exports.loadMeeting = function(req, res, next, id) {
             }
         });
 };
+
+function sendLinkToParticipants(id, participants, organizer) {
+    var transporter = nodemailer.createTransport(config.email);
+    var mailOptions = {
+        from: 'vstebra@mtg.sde.cz',
+        to: participants.join(','),
+        subject: 'Meeting invitation',
+        html: 'You have been invited to the meeting organized by ' + organizer + '.' +
+        ' You can attend the meeting using following link: https://mtg.sde.cz/meetings/' + id
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Email sent ' + info.response);
+    });
+}

@@ -5,3 +5,31 @@
 .tab-content {
     padding-top: 10px;
 }
+
+.padding-top-10 {
+    padding-top: 10px;
+}
+
+.message, .message-right {
+    padding: 5px;
+}
+
+.message-right {
+    text-align: right;
+}
+
+#local-video {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    width: 300px;
+    height: 300px;
+}
+
+.remote-video-container {
+    margin-top: 20px;
+}
+
+.remote-video {
+    width: 100%;
+}

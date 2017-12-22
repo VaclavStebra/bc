@@ -27,7 +27,12 @@ exports.registerForm = function (req, res) {
 exports.register = function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
-    var hash = crypto.createHmac('sha256', 'secret').update(password).digest('hex')
+    if (! email || ! email) {
+        req.flash('error', 'Email or password cannot be null');
+        res.redirect('/register');
+        return;
+    }
+    var hash = crypto.createHmac('sha256', 'secret').update(password).digest('hex');
     console.log(hash);
     var user = new User({
         email: email,

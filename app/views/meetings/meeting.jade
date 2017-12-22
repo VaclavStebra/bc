@@ -15,10 +15,24 @@ block content
                     div(class='row')
                         div(class='col-md-12')
                             div(class='input-group')
-                                input(type='text', class='form-control', placeholder='Message')
+                                input(type='text', class='form-control', placeholder='Message', id='chat-message')
                                 span(class='input-group-btn')
-                                    button(class='btn btn-default', type='button') Send
+                                    button(class='btn btn-default', type='button', id='send-message') Send
+                    div(id='chat-messages', class='padding-top-10')
+
             div(role='tabpanel', class='tab-pane', id='video')
-                p Video
+                div(class='tab-content')
+                    video(id='local-video', autoplay, muted)
+                    div(class='row', id='remote-videos')
+
+
+    script(src='/socket.io-client/socket.io.js')
+    script(src='/webrtc-adapter/adapter-1.1.0.js')
+    script.
+        const MEETING_ID = "#{meeting.id}";
+        const USER_EMAIL = "#{req.user.email}";
+        const USER_ID = "#{req.user.id}";
+    script(src='/screenfull/dist/screenfull.js')
+    script(src='/js/meeting.js')
 
 
